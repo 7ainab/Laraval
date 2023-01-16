@@ -1,0 +1,176 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="CollegeProject.SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - My ASP.NET Application</title>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+
+    <webopt:BundleReference runat="server" Path="~/Content/css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <style>
+        .navbar {
+            min-height: 89px !important;
+        }
+
+        .navbar-brand {
+            padding: 3px 3px !important;
+        }
+
+        .navbar-inverse .navbar-collapse {
+            font-size: 19px;
+            margin-top: 21px;
+        }
+        #conTab{
+            background-color:darkgray;
+            width:1550px;
+            border-width:15px;
+            border-color:darkgray;
+        }
+        #info{
+            background-color:black;
+            color:darkgray;
+            text-align:center;
+        }
+        
+    </style>
+</head>
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
+                <%--Framework Scripts--%>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+                <%--Site Scripts--%>
+            </Scripts>
+            
+        </asp:ScriptManager>
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" style="margin-top: 25px;" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" runat="server" href="~/">
+                        <img style="width: 87px;" src="images/CCSITlogo.png" /></a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <%
+                        if (user.UserId != 0)
+                        {
+                            if (user.Role == "faculty")
+                            {%>
+                    <ul class="nav navbar-nav">
+                        <li><a runat="server" href="~/Faculty">Home</a></li>
+                        <li><a runat="server" href="~/FacultyList">Faculty List</a></li>
+                        <li><a runat="server" href="~/AddFaculty">Add Faculty</a></li>
+                    </ul>
+                    <%}
+                        else if (user.Role == "key")
+                        {%>
+                    <ul class="nav navbar-nav">
+                        <li><a runat="server" href="~/Key">Home</a></li>
+                        <li><a runat="server" href="~/KeyList">Key List</a></li>
+                        <li><a runat="server" href="~/AddKey">Add Key</a></li>
+                        <li><a runat="server" href="~/KeyMember">Key Members</a></li>
+                    </ul>
+                    <%}
+                        else if (user.Role == "booking")
+                        {%>
+                    <ul class="nav navbar-nav">
+                        <li><a runat="server" href="~/Booking">Home</a></li>
+                        <li><a runat="server" href="~/RoomList">Room List</a></li>
+                        <li><a runat="server" href="~/BookingList">Booking List</a></li>
+                        <li><a runat="server" href="~/AddBooking">Create Booking</a></li>
+                    </ul>
+                    <%}
+                    }%>
+                    <%else
+                        {%>
+                    <ul class="nav navbar-nav">
+                        <li><a runat="server" href="~/">Home</a></li>
+                        <li><a runat="server" href="~/FacultyList">Faculty</a></li>
+                        <li><a runat="server" href="~/KeyList">Key</a></li>
+                        <li><a runat="server" href="~/RoomList">Rooms</a></li>
+                    </ul>
+                    <%}%>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <%
+                            if (Session["User"] == null)
+                            {%>
+                        <li><a runat="server" href="~/Login">Login</a></li>
+                        <%}
+                            else
+                            {%>
+                        <li>
+                            <asp:LinkButton ID="btnLogout" runat="server" OnClick="btnLogout_Click">Logout</asp:LinkButton></li>
+                        <%}%>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container body-content" style="margin-top: 35px;">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            <hr />
+            
+        </div>
+        <footer >
+            <div id="foot">
+                <table id="conTab" border="1">
+                    <tr>
+                        <td >
+                        <address > 
+                                <strong>Contact Us.</strong> <br />
+                                <img src="images/email.png" height="20" width="20"/>  <a href="mailto:halrajeh@kfu.edu.sa">halrajeh@kfu.edu.sa</a><br />
+                                <img src="images/phone.png" height="20" width="20"/>    <abbr title="Phone">920002366</abbr><br />
+                                <img src="images/map.png" height="20" width="20" /> <abbr title="locaition">Eastern Province - Al-Ahsa Governorate</abbr>
+                            </address>
+                        </td>
+                        <td >
+                            <address>
+                        <strong>National address:</strong> <br />
+                        7057 - King Faisal University<br />
+                        Unit Number: 1<br />
+                        Hofuf 36362 - 3959<br />
+                            </address>
+       
+                        </td>
+                    </tr>
+                </table>
+    
+                
+
+                <p id="info">&copy; <%: DateTime.Now.Year %> - College of Computer Science & Informaiton Technology</p>
+                </div>
+            </footer>
+    </form>
+    <script type="text/javascript">
+        function openModelFun() {
+            $('#myModal').modal('show');
+        }
+    </script>
+</body>
+</html>
